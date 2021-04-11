@@ -82,11 +82,20 @@ class HiddenMarkov:
             final_path.insert(0, path[i][prev])
             prev = path[i][prev]
         
+        # convert from log2
         transformed_prob = 2**prob
         
         print("Most probable state path: " + " ".join(final_path))
         print("Final path probability (log2): " + str(prob))
         print("Final path probability: " + str(transformed_prob))
+        
+        # write results to output file
+        viterbi_out = open("CodeyPhoun_viterbi_output.txt", 'w')
+        viterbi_out.write("HMM input sequence: " + input_seq + "\n")
+        viterbi_out.write("Most probable state path: " + " ".join(final_path) + "\n")
+        viterbi_out.write("Final path probability (log2): " + str(prob) + "\n")
+        viterbi_out.write("Final path probability: " + str(transformed_prob) + "\n")
+        viterbi_out.close()
 
         return prob, final_path
 

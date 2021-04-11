@@ -1,0 +1,4 @@
+HMM input sequence: ATGCCG
+Most probable state path: S2 S3 S3 S3 S3 S3
+Final path probability (log2): -17.024677999999998
+Final path probability: 7.499999863358117e-06
