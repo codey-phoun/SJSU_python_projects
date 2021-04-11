@@ -5,8 +5,8 @@ CS123B/CS223 Programming Assignment
 Problem Description: 
     Find the shortest route of all cities where each city is only
     visited once
-    
-Objective: 
+
+Objective:
     Write a genetic algorithm to create a solution to the
     Traveling Salesperson Problem
 
@@ -17,6 +17,13 @@ Genetic Algorithm Implementation:
         Elitist selection and Roulette Wheel selection are both used to select
         the individuals with the best fitness scores. These two selection methods
         are controlled by the elite_percentile and fitness_percentile parameters.
+
+        Elitist selection - Individuals with best fitness scores are guaranteed to
+                            move on to the next generation
+
+        Roulette Wheel - Probability an individual is selected for the next generation
+                         is proportional to their fitness level
+            
     Method of Evaluation:
         The fitness of each individual is measured by the formula: 1/distance * 10000
         The shorter a route's distance is, the higher the fitness score will be.
@@ -71,11 +78,13 @@ def get_fitness(distances):
     return fitness_results
 
 # Calculate fitness proportion and cumulative sums and add to dataframe
+# Used for Roulette Wheel selection
 def fitness_proportion(df):
     total_fitness = df["Fitness"].sum()
     df["Fitness_Proportion"] = df["Fitness"] / total_fitness
     df["Cumulative_Proportion"] = df["Fitness_Proportion"].cumsum()
 
+# Elitist Selection
 # Select the top percentile of individuals to join new generation
 def elite_fitness_selection(df, elite_percentile):
     elite = []
@@ -94,7 +103,7 @@ def ordered_crossover(parent1, parent2):
     offspring.extend([city for city in parent2 if city not in offspring])
     return offspring
 
-# Mutate all crossovered offspring
+# Mutate all crossovered offspring  by swapping position of two cities
 def mutate_offspring(offspring):
     city1 = random.randrange(len(offspring))
     city2 = random.randrange(len(offspring))
@@ -109,9 +118,10 @@ def create_offspring(fitness_selection, df, population_size, fitness_percentile)
 
     crossover_offspring = []
 
-    # select two parents, weighted by their fitness proportion
-    # lower distance = higher fitness and higher fitness proportion, giving higher chance for selection
-    # individuals with a chance for selection must have a cumulative proportion below the fitness_percentile parameter
+    # Roulette Wheel Selection
+    # Select two parents, weighted by their fitness proportion
+    # Lower distance = higher fitness and higher fitness proportion, giving higher chance for selection
+    # Individuals with a chance for selection must have a cumulative proportion below the fitness_percentile parameter
     for i in range(population_size - len(fitness_selection)):
         parent1 = random.choices(df[df["Cumulative_Proportion"] <= fitness_percentile].iloc[:, 0],
                                  weights=df[df["Cumulative_Proportion"] <= fitness_percentile]
@@ -123,7 +133,6 @@ def create_offspring(fitness_selection, df, population_size, fitness_percentile)
         parent2 = random.choices(df[df["Cumulative_Proportion"] <= fitness_percentile].iloc[:, 0],
                                  weights=df[df["Cumulative_Proportion"] <= fitness_percentile]
                                  ["Fitness_Proportion"].tolist())
-
         parent2 = [city for sublist in parent2 for city in sublist]
 
         # perform crossover of two parents
@@ -132,9 +141,7 @@ def create_offspring(fitness_selection, df, population_size, fitness_percentile)
     # mutate all new offspring
     for i in range(len(crossover_offspring)):
         crossover_offspring[i] = mutate_offspring(crossover_offspring[i])
-
     return crossover_offspring
-
 
 # Primary genetic algorithm loop
 def genetic_algorithm_TS(population, city_distances, population_size, elite_percentile, fitness_percentile):
@@ -162,7 +169,7 @@ def genetic_algorithm_TS(population, city_distances, population_size, elite_perc
     # Generate the offspring for the new generation by crossover and mutation
     offspring = create_offspring(fitness_selection, generation_df, population_size, fitness_percentile)
 
-    # Combine elite individuals with mutated offspring for the new generation
+    # Combine selected elite individuals with mutated offspring for the new generation
     new_generation = fitness_selection + offspring
 
     # Calculate new distances and fitness results for new generation
@@ -175,7 +182,10 @@ def genetic_algorithm_TS(population, city_distances, population_size, elite_perc
         "Distances": new_gen_distances,
         "Fitness": new_gen_fitness_results})
 
+    # Order individuals of new generation by their fitness
     new_generation_df = new_generation_df.sort_values("Fitness", ascending=False, ignore_index=True)
+
+    # Determine the best route of the new generation
     best_route = new_generation_df.iloc[0, 0]
     best_route_string = ' '.join([str(city) for city in best_route])
     best_distance = new_generation_df.iloc[0, 1]
@@ -185,7 +195,7 @@ def genetic_algorithm_TS(population, city_distances, population_size, elite_perc
 
     return new_generation, best_distance, new_gen_fitness_results
 
-# main control loop
+# Main control loop
 def main(population_size=100, elite_percentile=0.05, fitness_percentile=0.20, generations=25, minima_iterations=5):
     """ population_size: total population size for each generation \n
         elite_percentile: percentile of top performing individuals guaranteed to be in the next generation \n
@@ -193,28 +203,29 @@ def main(population_size=100, elite_percentile=0.05, fitness_percentile=0.20, ge
         generations: maximum number of generations to create \n
         minima_iterations: max number of iterations with the same result before loop breaks \n
     """
-    # set working directory to script's directory
+    # Set working directory to script's directory
     file_path = os.path.abspath(sys.argv[0])
     directory = os.path.dirname(file_path)
     os.chdir(directory)
     
-    # read in file of city distances
+    # Read in file of city distances
     city_distances = pd.read_csv("TS_Distances_Between_Cities.csv", index_col=0).dropna()
 
-    # initialize variables
+    # Initialize variables
     population = initialize_population(population_size, city_distances)
     current_best_distance = 0
     minima_counter = 0
     generation_counter = 0
 
-    # open file to write each iteration's fitness results
+    # Open file to write each generation's fitness results
     iteration_results = open("CodeyPhoun_GA_TS_Info.txt", 'w')
 
-    # run the main genetic algorithm loop
+    # Run the main genetic algorithm loop
     for i in range(generations):
         population, best_distance, new_gen_fitness = genetic_algorithm_TS(
             population, city_distances, population_size, elite_percentile, fitness_percentile)
-
+        
+        # Write out the new generation's results 
         iteration_results.write("Iteration: " + str(generation_counter) + "\n")
         iteration_results.write("Population size: " + str(population_size) + "\n")
         iteration_results.write('Average fitness score : ' + str(statistics.mean(new_gen_fitness)) + '\n')
@@ -225,6 +236,8 @@ def main(population_size=100, elite_percentile=0.05, fitness_percentile=0.20, ge
 
         generation_counter += 1
 
+        # Local minima detector
+        # End loop if the best distance does not improve for n minima_iterations
         if current_best_distance == best_distance:
             minima_counter += 1
         else:
@@ -236,7 +249,8 @@ def main(population_size=100, elite_percentile=0.05, fitness_percentile=0.20, ge
             print("Program has ended after " + str(generation_counter) + " generations")
             print("Minima first reached after " + str(generation_counter - minima_counter) + " generations")
             break
-
+    
+    # Write out the best result
     results = open("CodeyPhoun_GA_TS_Result.txt", 'w')
     final_route = population[0]
 
@@ -245,6 +259,5 @@ def main(population_size=100, elite_percentile=0.05, fitness_percentile=0.20, ge
 
     results.close()
     iteration_results.close()
-
 
 main(population_size=100, elite_percentile=0.1, fitness_percentile=0.30, generations=50, minima_iterations=10)
