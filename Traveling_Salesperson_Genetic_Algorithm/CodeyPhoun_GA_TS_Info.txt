@@ -1,0 +1,126 @@
+Iteration: 0
+Population size: 100
+Average fitness score : 0.27362365032936037
+Median fitness score : 0.26284580148154457
+STD of fitness scores : 0.047021931950782365
+Size of the selected subset of the population : 30
+
+Iteration: 1
+Population size: 100
+Average fitness score : 0.29392344698052225
+Median fitness score : 0.2819323649299911
+STD of fitness scores : 0.05512472832827559
+Size of the selected subset of the population : 30
+
+Iteration: 2
+Population size: 100
+Average fitness score : 0.3016255853772505
+Median fitness score : 0.29288139614215114
+STD of fitness scores : 0.05303738638950708
+Size of the selected subset of the population : 30
+
+Iteration: 3
+Population size: 100
+Average fitness score : 0.3056959844271558
+Median fitness score : 0.29712855130461735
+STD of fitness scores : 0.05730641881747535
+Size of the selected subset of the population : 30
+
+Iteration: 4
+Population size: 100
+Average fitness score : 0.3188226648306649
+Median fitness score : 0.3095688374528372
+STD of fitness scores : 0.05887288522851391
+Size of the selected subset of the population : 30
+
+Iteration: 5
+Population size: 100
+Average fitness score : 0.3176201884361082
+Median fitness score : 0.30871579351572764
+STD of fitness scores : 0.06165033315228635
+Size of the selected subset of the population : 30
+
+Iteration: 6
+Population size: 100
+Average fitness score : 0.31045927440766213
+Median fitness score : 0.29344877476811637
+STD of fitness scores : 0.06222781872831584
+Size of the selected subset of the population : 30
+
+Iteration: 7
+Population size: 100
+Average fitness score : 0.32381341588323526
+Median fitness score : 0.31549743591642476
+STD of fitness scores : 0.06154738332333898
+Size of the selected subset of the population : 30
+
+Iteration: 8
+Population size: 100
+Average fitness score : 0.3242554676850103
+Median fitness score : 0.3128729930848637
+STD of fitness scores : 0.06376626466144462
+Size of the selected subset of the population : 30
+
+Iteration: 9
+Population size: 100
+Average fitness score : 0.32784384863454735
+Median fitness score : 0.3077311624957926
+STD of fitness scores : 0.06696882191742881
+Size of the selected subset of the population : 30
+
+Iteration: 10
+Population size: 100
+Average fitness score : 0.33056422668668484
+Median fitness score : 0.31562649141449317
+STD of fitness scores : 0.07008817949266603
+Size of the selected subset of the population : 30
+
+Iteration: 11
+Population size: 100
+Average fitness score : 0.32138504376665517
+Median fitness score : 0.3022243937333951
+STD of fitness scores : 0.07150164523901457
+Size of the selected subset of the population : 30
+
+Iteration: 12
+Population size: 100
+Average fitness score : 0.31982097134816395
+Median fitness score : 0.30641244870305934
+STD of fitness scores : 0.07034320821324243
+Size of the selected subset of the population : 30
+
+Iteration: 13
+Population size: 100
+Average fitness score : 0.33138945629722444
+Median fitness score : 0.31256051042379873
+STD of fitness scores : 0.07118571300942256
+Size of the selected subset of the population : 30
+
+Iteration: 14
+Population size: 100
+Average fitness score : 0.32612184729877963
+Median fitness score : 0.31294788214184444
+STD of fitness scores : 0.07441027933695632
+Size of the selected subset of the population : 30
+
+Iteration: 15
+Population size: 100
+Average fitness score : 0.3200684576846418
+Median fitness score : 0.30376781967706634
+STD of fitness scores : 0.06646597026252021
+Size of the selected subset of the population : 30
+
+Iteration: 16
+Population size: 100
+Average fitness score : 0.32045788205862374
+Median fitness score : 0.2996215363135907
+STD of fitness scores : 0.07139521423727511
+Size of the selected subset of the population : 30
+
+Iteration: 17
+Population size: 100
+Average fitness score : 0.32341343889214136
+Median fitness score : 0.3060493091338088
+STD of fitness scores : 0.07049685472589802
+Size of the selected subset of the population : 30
+
